@@ -1,0 +1,143 @@
+Building configuration...
+
+  
+Current configuration : 1938 bytes
+!
+! Last configuration change at 14:24:27 EET Wed Apr 15 2020
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+service compress-config
+!
+hostname r3
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable password cisco
+!
+username renos password 0 cisco
+aaa new-model
+!
+!
+aaa authentication login default local
+!
+!
+!
+!
+!
+!
+aaa session-id common
+clock timezone EET 2 0
+!
+!
+!
+!
+!
+!
+!
+!
+ip domain-name lab
+ip cef
+no ipv6 cef
+!
+!
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 192.168.50.3 255.255.255.0
+!
+interface Loopback1
+ no ip address
+!
+interface Loopback33
+ no ip address
+!
+interface Loopback34
+ no ip address
+!
+interface Tunnel0
+ ip address 31.1.1.1 255.255.255.252
+ tunnel source Loopback0
+ tunnel destination 3.3.3.3
+!
+interface Ethernet0/0
+ no switchport
+ ip address 10.0.2.5 255.255.255.0
+ ip nat outside
+ duplex auto
+!
+interface Ethernet0/1
+ no switchport
+ ip address 10.0.0.6 255.255.255.252
+ ip nat inside
+ duplex auto
+ bfd interval 50 min_rx 100 multiplier 3
+!
+interface Ethernet0/2
+ no switchport
+ ip address 192.168.56.203 255.255.255.0
+ duplex auto
+!
+interface Ethernet0/3
+!
+router ospf 1
+ redistribute static metric 1 subnets
+ passive-interface Ethernet0/0
+ network 0.0.0.0 255.255.255.255 area 0
+ default-information originate
+ bfd all-interfaces
+!
+ip nat inside source list nat_traffic interface Ethernet0/2 overload
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+ip route 0.0.0.0 0.0.0.0 10.0.2.1
+ip ssh version 2
+!
+ip access-list standard nat_traffi
+ip access-list standard nat_traffic
+ permit 0.0.0.0 255.0.0.0
+ permit 0.0.0.0 255.255.255.0
+ permit any log
+!
+!
+access-list 101 permit ip any any
+!
+!
+!
+!
+!
+control-plane
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ transport input ssh
+!
+!
+end

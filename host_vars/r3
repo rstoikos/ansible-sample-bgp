@@ -1,0 +1,16 @@
+---
+
+  interfaces:
+    - name: loop 11
+      ipv4: 3.3.3.3/32
+      enabled: True
+      state: up
+      
+  bgp:
+    asn: 65001
+    routerid: 3.3.3.3
+    neighbors:
+      - address: 2.2.2.2
+        remoteas: 65001
+    networks:
+      - address: 3.3.3.3 mask 255.255.255.255
