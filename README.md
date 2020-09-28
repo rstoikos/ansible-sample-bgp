@@ -2,10 +2,10 @@
 ansible yaml files needed for basic bgp configuration
 
 
-ansible.cfg = tell inventory to look local folder hosts file
-group_vars =  variables that are common
-host_vars = specific config for each host
-templates/ios_bgp.j2 = jinja file for looping bgp config in hosts_vars
+ansible.cfg = tell inventory to look local folder hosts file\
+group_vars =  variables that are common\
+host_vars = specific config for each host\
+templates/ios_bgp.j2 = jinja file for looping bgp config in hosts_vars\
 bgp playbook:
   - name: name of the task
   - name of the module (ios_l3_interface)
